@@ -26,7 +26,7 @@ import (
 )
 
 func main() {
-  // connect
+	// connect
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9090", grpc.WithInsecure())
 	if err != nil {
@@ -34,17 +34,17 @@ func main() {
 	}
 	defer conn.Close()
 
-  // create grpc client
+	// create grpc client
 	c := boltgrpc.NewBoltClient(conn)
 
-  // update
-	_, err = c.Update(context.Background(), &bolt.UpdateRequest{Buckets: []string{"notes"}, Key: []byte("1"), Val: []byte("I'm trying boltgrpc")})
+	// update
+	_, err = c.Update(context.Background(), &boltgrpc.UpdateRequest{Buckets: []string{"notes"}, Key: []byte("1"), Val: []byte("I'm trying boltgrpc")})
 	if err != nil {
 		log.Fatalf("Error: %s", err)
 	}
 
-  // view
-	response, err := c.View(context.Background(), &bolt.ViewRequest{Buckets: []string{"notes"}, Key: []byte("1")})
+	// view
+	response, err := c.View(context.Background(), &boltgrpc.ViewRequest{Buckets: []string{"notes"}, Key: []byte("1")})
 	if err != nil {
 		log.Fatalf("Error: %s", err)
 	}
