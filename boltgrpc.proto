@@ -1,0 +1,37 @@
+syntax = "proto3";
+package boltgrpc;
+
+message UpdateRequest {
+  repeated string buckets = 1;
+  bytes key = 2;
+  bytes val = 3;
+}
+
+message ViewRequest {
+  repeated string buckets = 1;
+  bytes key = 2;
+}
+
+message UpdateResponse {
+  enum Error {
+    NONE = 0;
+    FAILED = 1;
+  }
+  Error err = 1;
+}
+
+message ViewResponse {
+  bytes val = 1;
+
+  enum Error {
+    NONE = 0;
+    FAILED = 1;
+  }
+  Error err = 2;
+}
+
+service Bolt {
+  rpc Update(UpdateRequest) returns (UpdateResponse) {}
+  rpc View(ViewRequest) returns (ViewResponse) {}
+}
+
